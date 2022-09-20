@@ -1,0 +1,18 @@
+{
+  "name": "democlase",
+  "version": "1.0.0",
+  "description": "Esta es la demo de la clase de Node",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "author": "Emanuel Correa",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "nodemon": "^2.0.20",
+    "redux": "^4.0.5"
+  }
+}
