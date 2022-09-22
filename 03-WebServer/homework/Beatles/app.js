@@ -1,6 +1,48 @@
 var http = require('http');
 var fs   = require('fs');
 
+http.createServer((req, res) => {
+  var beatle = req.url.split('/').pop();
+  beatle = beatle.replace('%20', ' ');
+  var found = beatles.find((e) => e.name === beatle);
+
+  if(found) {
+    res.writeHead(200, {'Content-type': 'text/html'})
+    var miHtml2 = fs.readFileSync(__dirname + '/beatle.html', 'utf-8')
+
+    miHtml2 = miHtml2.replace(/{name}/g, found.name);
+    miHtml2 = miHtml2.replace('{birthdate}', found.birthdate);
+    miHtml2 = miHtml2.replace('{profilePic}', found.profilePic);
+
+    return res.end(miHtml2)
+  }
+
+  if(req.url.substring(0, 5) === '/api/') {
+    if(found) {
+      res.writeHead(200, {'Content-type': 'application/json'});
+      return res.end(JSON.stringify(found))
+    }
+  }
+
+  if(req.url === '/') {
+    res.writeHead(200, {'Content-type': 'text/html'})
+    var miHtml = fs.readFileSync(__dirname + '/index.html', 'utf-8')
+    return res.end(miHtml)
+  }
+  
+  if(req.url === '/api') {
+    res.writeHead(200, {'Content-type': 'application/json'});
+    return res.end(JSON.stringify(beatles))
+  }
+  
+  
+  else{
+    res.writeHead(404, {'Content-type': 'text/plain'});
+    return res.end('Error: not found')
+  }
+})
+.listen(3000, 'localhost');
+
 var beatles=[{
   name: "John Lennon",
   birthdate: "09/10/1940",
@@ -21,4 +63,4 @@ var beatles=[{
   birthdate: "07/08/1940",
   profilePic:"http://cp91279.biography.com/BIO_Bio-Shorts_0_Ringo-Starr_SF_HD_768x432-16x9.jpg"
 }
-]
+];
