@@ -9,7 +9,8 @@
   "scripts": {
     "test": "gulp",
     "docs": "docco test/*.js",
-    "grade": "jest --useStderr --json --outputFile=./test/result.json"
+    "grade": "jest --useStderr --json --outputFile=./test/result.json",
+    "serve": "nodemon src/pledge.js"
   },
   "jest": {
     "testRegex": "./test/.*.js$",
@@ -21,6 +22,7 @@
     "docco": "^0.9.1",
     "gulp-jasmine-livereload-task": "^0.11.0",
     "jasmine-core": "^3.7.1",
+    "nodemon": "^2.0.20",
     "opn-cli": "^4.1.0"
   },
   "dependencies": {
