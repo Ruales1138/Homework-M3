@@ -20,9 +20,9 @@ server.post('/posts', (req, res) => {
     if(author && title && contents) {
         let post = {author, title, contents, id: id++};
         posts.push(post);
-        res.json(post);
+        return res.json(post);
     } else {
-        res.status(STATUS_USER_ERROR).json({
+        return res.status(STATUS_USER_ERROR).json({
             error: 'No se recibieron los parámetros necesarios para crear el Post'
         })
     }
@@ -34,9 +34,9 @@ server.post('/posts/author/:author', (req, res) => {
     if(author && title && contents) {
         let post = {author, title, contents, id: id++};
         posts.push(post);
-        res.json(post);
+        return res.json(post);
     } else {
-        res.status(STATUS_USER_ERROR).json({
+        return res.status(STATUS_USER_ERROR).json({
             error: 'No se recibieron los parámetros necesarios para crear el Post'
         })
     }
@@ -45,10 +45,10 @@ server.post('/posts/author/:author', (req, res) => {
 server.get('/posts', (req, res) => {
     let {term} = req.query;
     if(!term) {
-        res.json(posts)
+        return res.json(posts)
     } else {
         let filtered = posts.filter(post => post.title.includes(term) || post.contents.includes(term))
-        res.json(filtered); 
+        return res.json(filtered); 
     }
 });
 
@@ -56,9 +56,9 @@ server.get('/posts/:author', (req, res) => {
     let {author} = req.params;
     let postsFromAuthor = posts.filter(post => post.author === author.replace('%20', ' '));
     if(postsFromAuthor.length) {
-        res.json(postsFromAuthor)
+        return res.json(postsFromAuthor)
     } else {
-        res.status(STATUS_USER_ERROR).json({error: "No existe ningun post del autor indicado"})
+        return res.status(STATUS_USER_ERROR).json({error: "No existe ningun post del autor indicado"})
     }
 });
 
@@ -66,9 +66,9 @@ server.get('/posts/:author/:title', (req, res) => {
     let {author, title} = req.params;
     let result = posts.filter(post => post.author === author && post.title === title);
     if(result.length) {
-        res.json(result)
+        return res.json(result)
     } else {
-        res.status(STATUS_USER_ERROR).json({
+        return res.status(STATUS_USER_ERROR).json({
             error: "No existe ningun post con dicho titulo y autor indicado"
         })
     }
@@ -81,12 +81,12 @@ server.put('/posts', (req, res) => {
         if(post) {
             post.title = title,
             post.contents = contents
-            res.json(post)
+            return res.json(post)
         } else {
             res.status(STATUS_USER_ERROR).json({error: 'No se encontro el post'})
         }
     } else {
-        res.status(STATUS_USER_ERROR).json({
+        return res.status(STATUS_USER_ERROR).json({
             error: 'No se recibieron los parametros necesarios para modificar el post'
         })
     }
@@ -97,7 +97,7 @@ server.delete('/posts', (req, res) => {
     let post = posts.filter(post => post.id === id);
     if(id && post.length) {
         posts = posts.filter(post => post.id !== id);
-        res.json({ success: true });
+        return res.json({ success: true });
     } else {
         res.status(STATUS_USER_ERROR).json({error: "Mensaje de error"});
     }
@@ -108,9 +108,9 @@ server.delete('/author', (req, res) => {
     let deletedPosts = posts.filter(post => post.author === author);
     if(author && deletedPosts.length) {
         posts = posts.filter(post => post.author !== author);
-        res.json(deletedPosts);
+        return res.json(deletedPosts);
     } else {
-        res.status(STATUS_USER_ERROR).json({error: "No existe el autor indicado"});
+        return res.status(STATUS_USER_ERROR).json({error: "No existe el autor indicado"});
     }
 })
 
