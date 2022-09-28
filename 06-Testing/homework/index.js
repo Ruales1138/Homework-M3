@@ -42,7 +42,7 @@ app.post('/sumArray', (req, res) => {
 
 app.post('/numString', (req, res) => {
   let {string} = req.body;
-  if(typeof string !== 'string' || !string.length) return res.sendStatus(400)
+  if(typeof string !== 'string' || !string) return res.sendStatus(400)
   else {
     return res.send({
       result: string.length,
@@ -52,7 +52,7 @@ app.post('/numString', (req, res) => {
 
 app.post('/pluck', (req, res) => {
   let {array, prop} = req.body;
-  if(!Array.isArray(array) || !prop.length) return res.sendStatus(400)
+  if(!Array.isArray(array) || !prop) return res.sendStatus(400)
   else {
     let result = array.map(e => e[prop])
     return res.send({result: result})
